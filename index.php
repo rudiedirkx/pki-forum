@@ -32,6 +32,8 @@ include 'tpl.header.php';
 $posts = UserPost::all(['user_id' => $g_user->id]);
 
 ?>
+<p><a href="logout.php">Log out</a></p>
+
 <h1>Home</h1>
 
 <ul>
