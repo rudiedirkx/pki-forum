@@ -2,7 +2,7 @@
 
 require 'inc.bootstrap.php';
 
-$user = check_login();
+$g_user = check_login();
 
 if ( isset($_POST['title'], $_POST['body']) ) {
 	$key = get_rand();
@@ -17,9 +17,9 @@ if ( isset($_POST['title'], $_POST['body']) ) {
 	]);
 
 	UserPost::insert([
-		'user_id' => $user->id,
+		'user_id' => $g_user->id,
 		'post_id' => $id,
-		'crypter' => $user->encrypt($key),
+		'crypter' => $g_user->encrypt($key),
 	]);
 
 	$db->commit();
@@ -29,7 +29,7 @@ if ( isset($_POST['title'], $_POST['body']) ) {
 
 include 'tpl.header.php';
 
-$posts = UserPost::all(['user_id' => $user->id]);
+$posts = UserPost::all(['user_id' => $g_user->id]);
 
 ?>
 <h1>Home</h1>
@@ -43,10 +43,10 @@ $posts = UserPost::all(['user_id' => $user->id]);
 <form method="post">
 	<p>Title: <input name="title" /></p>
 	<p>Body:<br><textarea name="body"></textarea></p>
-	<p><button>Save</button></p>
+	<p><button>Create post</button></p>
 </form>
 
-<pre><? print_r($user) ?></pre>
+<pre><? print_r($g_user) ?></pre>
 
 <?php
 

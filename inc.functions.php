@@ -28,7 +28,7 @@ function get_user( $username ) {
 	return User::first(['username' => $username]);
 }
 
-function get_rand( $length = 20 ) {
+function get_rand( $length = 40 ) {
 	$chars = array_merge(range('A', 'Z'), range(0, 9), range('a', 'z'));
 	$rand = '';
 	while ( strlen($rand) < $length ) {

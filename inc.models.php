@@ -26,6 +26,10 @@ class Post extends db_generic_model {
 
 	static public $_table = 'posts';
 
+	protected function get_user_posts() {
+		return UserPost::all(['post_id' => $this->id]);
+	}
+
 	static public function encrypt( $key, $data ) {
 		$iv_size = openssl_cipher_iv_length('AES-256-CBC');
 		$iv = openssl_random_pseudo_bytes($iv_size);
@@ -62,7 +66,22 @@ class UserPost extends db_generic_model {
 		return $this->decrypt($this->user, $this->post->body);
 	}
 
-	public function encrypt( User $user, $data ) {
+	public function recryptPost() {
+		$title = $this->decrypted_title;
+		$body = $this->decrypted_body;
+
+		$key = get_rand();
+
+		$this->post->update([
+			'title' => Post::encrypt($key, $title),
+			'body' => Post::encrypt($key, $body),
+		]);
+
+		foreach ( $this->post->user_posts as $post ) {
+			$post->update([
+				'crypter' => $post->user->encrypt($key),
+			]);
+		}
 	}
 
 	public function decrypt( User $user, $data ) {

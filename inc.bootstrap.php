@@ -11,3 +11,5 @@ db_generic_model::$_db = $db;
 
 require 'inc.ensure-db-schema.php';
 require 'inc.models.php';
+
+$g_user = null;
