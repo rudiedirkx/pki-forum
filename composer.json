@@ -1,0 +1,14 @@
+{
+    "name": "rdx/pki-forum",
+    "type": "project",
+    "require": {
+        "rdx/db": "^1.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rudie Dirkx",
+            "email": "github@hotblocks.nl"
+        }
+    ]
+}
