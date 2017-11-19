@@ -20,9 +20,9 @@ include 'tpl.header.php';
 
 <p><a href="register.php">Register</a></p>
 
-<form method="post" action>
-	<p>Username: <input name="username" autofocus /></p>
-	<p>Password: <input name="password" /></p>
+<form method="post" action autocomplete="off">
+	<p>Username: <input required name="username" autofocus /></p>
+	<p>Password: <input required name="password" value="test" /></p>
 	<p><button>Log in</button></p>
 </form>
 

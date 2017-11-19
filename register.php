@@ -7,10 +7,7 @@ if ( isset($_POST['username'], $_POST['password']) ) {
 		return do_redirect('register', ['msg' => 'Username exists']);
 	}
 
-	$pkey = openssl_pkey_new(['digest_alg' => 'sha512', 'private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
-	openssl_pkey_export($pkey, $privkey, $_POST['password']);
-	$details = openssl_pkey_get_details($pkey);
-	$pubkey = $details['key'];
+	list($privkey, $pubkey) = Model::_pkey($_POST['password']);
 
 	$db->insert('users', [
 		'username' => $_POST['username'],
@@ -28,9 +25,9 @@ include 'tpl.header.php';
 
 <p><a href="login.php">Log in</a></p>
 
-<form method="post" action>
-	<p>Username: <input name="username" autofocus /></p>
-	<p>Password: <input name="password" /></p>
+<form method="post" action autocomplete="off">
+	<p>Username: <input required name="username" autofocus /></p>
+	<p>Password: <input required name="password" value="test" /></p>
 	<p><button>Save</button></p>
 </form>
 

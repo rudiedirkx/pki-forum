@@ -1,5 +1,6 @@
 <?php
 
+/** @return User */
 function check_login() {
 	if ( isset($_SESSION['pki_username'], $_SESSION['pki_password']) ) {
 		if ( $user = check_user($_SESSION['pki_username'], $_SESSION['pki_password']) ) {
@@ -10,8 +11,8 @@ function check_login() {
 	return do_redirect('login');
 }
 
+/** @return User */
 function check_user( $username, $password ) {
-	global $db;
 	$user = get_user($username);
 	if ( $user ) {
 		$user->pkey = openssl_pkey_get_private($user->private_key, $password);
@@ -23,13 +24,15 @@ function check_user( $username, $password ) {
 	return false;
 }
 
+/** @return User */
 function get_user( $username ) {
-	global $db;
 	return User::first(['username' => $username]);
 }
 
-function get_rand( $length = 40 ) {
+function get_rand() {
 	$chars = array_merge(range('A', 'Z'), range(0, 9), range('a', 'z'));
+	$length = 40;
+
 	$rand = '';
 	while ( strlen($rand) < $length ) {
 		$rand .= $chars[ array_rand($chars) ];
@@ -53,4 +56,20 @@ function do_redirect( $path, $query = null ) {
 
 function html( $text ) {
 	return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+}
+
+function html_options( $options, $selected = null, $empty = '' ) {
+	$selected = (array) $selected;
+
+	$html = '';
+	$empty && $html .= '<option value="">' . $empty;
+	foreach ( $options AS $value => $label ) {
+		if ( $label instanceof Model ) {
+			$value = $label->id;
+		}
+
+		$isSelected = in_array($value, $selected) ? ' selected' : '';
+		$html .= '<option value="' . html($value) . '" ' . $isSelected . '>' . html($label) . '</option>';
+	}
+	return $html;
 }
