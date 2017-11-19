@@ -1,5 +1,7 @@
 <?php
 
+use App\Model;
+
 require 'inc.bootstrap.php';
 
 if ( isset($_POST['username'], $_POST['password']) ) {
@@ -18,7 +20,7 @@ if ( isset($_POST['username'], $_POST['password']) ) {
 	return do_redirect('login', ['msg' => 'User created']);
 }
 
-include 'tpl.header.php';
+include 'tpl/header.php';
 
 ?>
 <h1>Register</h1>
@@ -33,4 +35,4 @@ include 'tpl.header.php';
 
 <?php
 
-include 'tpl.footer.php';
+include 'tpl/footer.php';

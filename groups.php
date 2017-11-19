@@ -1,5 +1,9 @@
 <?php
 
+use App\Group;
+use App\GroupUser;
+use App\Model;
+
 require 'inc.bootstrap.php';
 
 $g_user = check_login();
@@ -51,7 +55,7 @@ if ( isset($_POST['invite_group'], $_POST['invite_user']) ) {
 	return do_redirect('groups', ['msg' => 'User added']);
 }
 
-include 'tpl.header.php';
+include 'tpl/header.php';
 
 ?>
 <p><a href="index.php">Home</a></p>
@@ -79,4 +83,4 @@ include 'tpl.header.php';
 
 <?php
 
-include 'tpl.footer.php';
+include 'tpl/footer.php';

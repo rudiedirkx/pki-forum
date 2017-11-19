@@ -5,6 +5,11 @@
         "rdx/db": "^1.1"
     },
     "license": "MIT",
+    "autoload": {
+        "psr-4":{
+            "App\\": "src/"
+        }
+    },
     "authors": [
         {
             "name": "Rudie Dirkx",

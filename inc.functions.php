@@ -1,5 +1,8 @@
 <?php
 
+use App\Model;
+use App\User;
+
 /** @return User */
 function check_login() {
 	if ( isset($_SESSION['pki_username'], $_SESSION['pki_password']) ) {

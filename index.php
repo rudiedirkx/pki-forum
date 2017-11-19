@@ -1,5 +1,10 @@
 <?php
 
+use App\GroupPost;
+use App\Model;
+use App\Post;
+use App\UserPost;
+
 require 'inc.bootstrap.php';
 
 $g_user = check_login();
@@ -39,7 +44,7 @@ if ( isset($_POST['post_title'], $_POST['post_body']) ) {
 	return do_redirect('index');
 }
 
-include 'tpl.header.php';
+include 'tpl/header.php';
 
 $posts = $g_user->all_posts;
 
@@ -68,4 +73,4 @@ $posts = $g_user->all_posts;
 
 <?php
 
-include 'tpl.footer.php';
+include 'tpl/footer.php';

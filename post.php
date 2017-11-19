@@ -1,5 +1,8 @@
 <?php
 
+use App\Post;
+use App\UserPost;
+
 require 'inc.bootstrap.php';
 
 $g_user = check_login();
@@ -28,7 +31,7 @@ if ( isset($_POST['invite_user']) ) {
 	return do_redirect('index', ['msg' => 'Invalid user']);
 }
 
-include 'tpl.header.php';
+include 'tpl/header.php';
 
 ?>
 <p><a href="index.php">Home</a></p>
@@ -36,7 +39,7 @@ include 'tpl.header.php';
 <h1><?= html($post->decrypted_title) ?></h1>
 
 <blockquote>
-	<?= html($post->decrypted_body) ?>
+	<?= nl2br(html($post->decrypted_body)) ?>
 </blockquote>
 
 <form method="post">
@@ -48,4 +51,4 @@ include 'tpl.header.php';
 
 <?php
 
-include 'tpl.footer.php';
+include 'tpl/footer.php';

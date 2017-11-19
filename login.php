@@ -13,7 +13,7 @@ if ( isset($_POST['username'], $_POST['password']) ) {
 	return do_redirect('index');
 }
 
-include 'tpl.header.php';
+include 'tpl/header.php';
 
 ?>
 <h1>Log in</h1>
@@ -28,4 +28,4 @@ include 'tpl.header.php';
 
 <?php
 
-include 'tpl.footer.php';
+include 'tpl/footer.php';
