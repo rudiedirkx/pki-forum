@@ -18,7 +18,7 @@ class User extends Model {
 
 	static public $_table = 'users';
 
-	protected function get_groups() {
+	function get_groups() {
 		/** @var GroupUser[] $groups */
 		$groups = GroupUser::all(['user_id' => $this->id]);
 		foreach ( $groups as $group ) {
@@ -28,13 +28,13 @@ class User extends Model {
 		return $groups;
 	}
 
-	protected function get_gids() {
+	function get_gids() {
 		return array_map(function(GroupUser $group) {
 			return $group->group_id;
 		}, $this->groups);
 	}
 
-	protected function get_all_posts() {
+	function get_all_posts() {
 		$gids = $this->gids;
 		$userPosts = UserPost::all(['user_id' => $this->id]);
 		$groupPosts = GroupPost::all(['group_id' => $gids]);
@@ -49,7 +49,7 @@ class User extends Model {
 		return $posts;
 	}
 
-	public function encrypt( $data ) {
+	function encrypt( $data ) {
 		if ( !openssl_public_encrypt($data, $output, $this->public_key) ) {
 			throw new Exception(__METHOD__);
 		}
@@ -57,7 +57,7 @@ class User extends Model {
 		return base64_encode($output);
 	}
 
-	public function decrypt( $data ) {
+	function decrypt( $data ) {
 		if ( !openssl_private_decrypt(base64_decode($data), $output, $this->pkey) ) {
 			throw new Exception(__METHOD__);
 		}
@@ -65,7 +65,7 @@ class User extends Model {
 		return $output;
 	}
 
-	public function __toString() {
+	function __toString() {
 		return $this->username;
 	}
 

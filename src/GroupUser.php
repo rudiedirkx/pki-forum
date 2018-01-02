@@ -15,19 +15,19 @@ class GroupUser extends Model {
 
 	static public $_table = 'groups_users';
 
-	protected function get_group() {
+	function get_group() {
 		return Group::find($this->group_id);
 	}
 
-	protected function get_user() {
+	function get_user() {
 		return User::find($this->user_id);
 	}
 
-	protected function get_decrypted_name() {
+	function get_decrypted_name() {
 		return $this->group->decrypt($this->group->name);
 	}
 
-	public function __toString() {
+	function __toString() {
 		return $this->decrypted_name;
 	}
 

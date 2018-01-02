@@ -16,23 +16,23 @@ class UserPost extends Model implements PostInterface {
 
 	static public $_table = 'users_posts';
 
-	/*protected*/ function get_post() {
-	return Post::find($this->post_id);
-}
+	function get_post() {
+		return Post::find($this->post_id);
+	}
 
-	protected function get_user() {
+	function get_user() {
 		return User::find($this->user_id);
 	}
 
-	/*protected*/ function get_decrypted_title() {
-	return $this->decrypt($this->user, $this->post->title);
-}
+	function get_decrypted_title() {
+		return $this->decrypt($this->user, $this->post->title);
+	}
 
-	/*protected*/ function get_decrypted_body() {
-	return $this->decrypt($this->user, $this->post->body);
-}
+	function get_decrypted_body() {
+		return $this->decrypt($this->user, $this->post->body);
+	}
 
-	public function decrypt( User $user, $data ) {
+	function decrypt( User $user, $data ) {
 		$key = $user->decrypt($this->crypter);
 		return self::_decrypt($key, $data);
 	}
