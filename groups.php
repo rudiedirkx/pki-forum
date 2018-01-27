@@ -37,8 +37,7 @@ if ( isset($_POST['new_group']) ) {
 }
 
 if ( isset($_POST['invite_group'], $_POST['invite_user']) ) {
-	/** @var GroupUser $group */
-	$group = $groups[ $_POST['invite_group'] ];
+	$group = @$groups[ $_POST['invite_group'] ];
 	$user = get_user($_POST['invite_user']);
 	if ( !$group || !$user ) {
 		return do_redirect('groups', ['msg' => 'Invalid']);
@@ -52,7 +51,20 @@ if ( isset($_POST['invite_group'], $_POST['invite_user']) ) {
 		'passphrase' => $user->encrypt($passphrase),
 	]);
 
+	$group->group->recrypt();
+
 	return do_redirect('groups', ['msg' => 'User added']);
+}
+
+if ( isset($_POST['recrypt_group']) ) {
+	$group = @$groups[ $_POST['recrypt_group'] ];
+	if ( !$group ) {
+		return do_redirect('groups', ['msg' => 'Invalid']);
+	}
+
+	$group->group->recrypt();
+
+	return do_redirect('groups', ['msg' => 'Group re-encrypted']);
 }
 
 include 'tpl/header.php';
@@ -77,6 +89,11 @@ include 'tpl/header.php';
 	<p>Group: <select required name="invite_group"><?= html_options($groups) ?></select></p>
 	<p>Username: <input required name="invite_user" /></p>
 	<p><button>Invite user</button>
+</form>
+
+<form method="post">
+	<p>Group: <select required name="recrypt_group"><?= html_options($groups) ?></select></p>
+	<p><button>Re-encrypt group</button>
 </form>
 
 <pre><? print_r($groups) ?></pre>

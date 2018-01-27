@@ -51,6 +51,7 @@ $posts = $g_user->all_posts;
 ?>
 <p>
 	<a href="logout.php">Log out</a>
+	|
 	<a href="groups.php">Groups</a>
 </p>
 

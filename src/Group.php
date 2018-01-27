@@ -10,10 +10,15 @@ use Exception;
  * @property string $public_key
  *
  * @property resource $pkey
+ * @property GroupUser[] $users
  */
 class Group extends Model {
 
 	static public $_table = 'groups';
+
+	function get_users() {
+		return GroupUser::all(['group_id' => $this->id]);
+	}
 
 	function __toString() {
 		return $this->name;
@@ -33,6 +38,24 @@ class Group extends Model {
 		}
 
 		return $output;
+	}
+
+	function recrypt() {
+		$passphrase = get_rand();
+
+		if ( !openssl_pkey_export($this->pkey, $pkey, $passphrase) ) {
+			throw new Exception(__METHOD__);
+		}
+
+		$this->update([
+			'private_key' => $pkey,
+		]);
+
+		foreach ( $this->users as $user ) {
+			$user->update([
+				'passphrase' => $user->user->encrypt($passphrase),
+			]);
+		}
 	}
 
 }
