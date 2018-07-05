@@ -12,7 +12,7 @@ $db = db_sqlite::open(['database' => __DIR__ . '/db/forum.sqlite3']);
 
 db_generic_model::$_db = $db;
 
-require 'inc.ensure-db-schema.php';
+$db->ensureSchema(require 'inc.db-schema.php');
 
 /** @var User $g_user */
 $g_user = null;

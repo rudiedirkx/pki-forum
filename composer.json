@@ -2,7 +2,7 @@
     "name": "rdx/pki-forum",
     "type": "project",
     "require": {
-        "rdx/db": "^1.1"
+        "rdx/db": "^1.7"
     },
     "license": "MIT",
     "autoload": {
