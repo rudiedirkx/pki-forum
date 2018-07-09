@@ -2,10 +2,8 @@
 
 use App\User;
 
+require 'env.php';
 require 'vendor/autoload.php';
-require 'inc.functions.php';
-
-session_start();
 
 /** @var db_generic $db */
 $db = db_sqlite::open(['database' => __DIR__ . '/db/forum.sqlite3']);

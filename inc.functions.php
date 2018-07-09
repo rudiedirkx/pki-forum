@@ -4,14 +4,17 @@ use App\Model;
 use App\User;
 
 /** @return User */
-function check_login() {
-	if ( isset($_SESSION['pki_username'], $_SESSION['pki_password']) ) {
-		if ( $user = check_user($_SESSION['pki_username'], $_SESSION['pki_password']) ) {
-			return $user;
+function check_login( $redirect = true ) {
+	if ( isset($_COOKIE['pki_auth']) ) {
+		if ( $auth = do_decrypt($_COOKIE['pki_auth']) ) {
+			list($username, $password) = json_decode($auth);
+			if ( $user = check_user($username, $password) ) {
+				return $user;
+			}
 		}
 	}
 
-	return do_redirect('login');
+	$redirect and do_redirect('login');
 }
 
 /** @return User */
@@ -42,6 +45,20 @@ function get_rand() {
 	}
 
 	return $rand;
+}
+
+function do_encrypt( $data ) {
+	$iv_size = openssl_cipher_iv_length('AES-256-CBC');
+	$iv = openssl_random_pseudo_bytes($iv_size);
+	return base64_encode($iv . openssl_encrypt($data, 'AES-256-CBC', PKI_SECRET, 0, $iv));
+}
+
+function do_decrypt( $data ) {
+	$data = base64_decode($data);
+	$iv_size = openssl_cipher_iv_length('AES-256-CBC');
+	$iv = substr($data, 0, $iv_size);
+	$data = substr($data, $iv_size);
+	return rtrim(openssl_decrypt($data, 'AES-256-CBC', PKI_SECRET, 0, $iv), "\0");
 }
 
 function do_redirect( $path, $query = null ) {

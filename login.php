@@ -2,13 +2,14 @@
 
 require 'inc.bootstrap.php';
 
+check_login(false) and do_redirect('index');
+
 if ( isset($_POST['username'], $_POST['password']) ) {
 	if ( !check_user($_POST['username'], $_POST['password']) ) {
 		return do_redirect('login', ['msg' => 'Invalid username/password']);
 	}
 
-	$_SESSION['pki_username'] = $_POST['username'];
-	$_SESSION['pki_password'] = $_POST['password'];
+	setcookie('pki_auth', do_encrypt(json_encode([$_POST['username'], $_POST['password']])));
 
 	return do_redirect('index');
 }

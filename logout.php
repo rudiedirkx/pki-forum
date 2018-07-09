@@ -4,6 +4,6 @@ require 'inc.bootstrap.php';
 
 $g_user = check_login();
 
-unset($_SESSION['pki_username'], $_SESSION['pki_password']);
+setcookie('pki_auth', '', 1);
 
 return do_redirect('index');
